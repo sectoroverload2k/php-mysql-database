@@ -1,5 +1,5 @@
 <?php
-namespace PHP_MySQL_Database;
+namespace PhpMysqlDatabase;
 
 class MySQL {
     var $db_handle;
