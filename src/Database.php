@@ -11,9 +11,9 @@ and the Website Baker code
 
 // Stop this file from being accessed directly
 
-namespace PHP_MySQL_Database;
+namespace PhpMysqlDatabase;
 
-use PHP_MySQL_Database/MySQL;
+use PhpMysqlDatabase\MySQL;
 
 class Database {
   protected $server;
