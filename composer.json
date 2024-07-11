@@ -2,6 +2,7 @@
     "name": "sectoroverload2k/php-mysql-database",
     "type": "library",
     "description": "PHP Library for OO MySQLi connection and queries",
+		"version": "1.0.0",
     "keywords": ["mysql","crud"],
     "homepage": "https://github.com/sectoroverload2k/php-crud",
     "license": "MIT",
