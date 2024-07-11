@@ -61,7 +61,7 @@ class Database {
 	}
 	// Run a query
 	function query($statement) {
-		$mysql = new PhpMysqlDatabase\MySQL($this->db_handle);
+		$mysql = new MySQL($this->db_handle);
 		$mysql->query($statement);
 		$this->set_error($mysql->error());
 		if($mysql->error()) {
