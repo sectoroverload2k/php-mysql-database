@@ -14,6 +14,8 @@ and the Website Baker code
 namespace PhpMysqlDatabase;
 
 use PhpMysqlDatabase\MySQL;
+use RestRouter\Exceptions\DBErrorException;
+use RestRouter\Exceptions\ForeignKeyException;
 
 class Database {
   protected $server;

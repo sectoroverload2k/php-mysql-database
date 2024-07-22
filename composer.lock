@@ -1,0 +1,65 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "f09df18734544af22f6f6dc5859d96c7",
+    "packages": [
+        {
+            "name": "sectoroverload2k/rest-router",
+            "version": "0.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sectoroverload2k/rest-router.git",
+                "reference": "81d91984f458e5882a09b8d6655b125685f90992"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sectoroverload2k/rest-router/zipball/81d91984f458e5882a09b8d6655b125685f90992",
+                "reference": "81d91984f458e5882a09b8d6655b125685f90992",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "RestRouter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anthony Linsday",
+                    "email": "anthony@linsday.net"
+                }
+            ],
+            "description": "PHP Library for REST API",
+            "keywords": [
+                "api",
+                "rest"
+            ],
+            "support": {
+                "issues": "https://github.com/sectoroverload2k/rest-router/issues",
+                "source": "https://github.com/sectoroverload2k/rest-router/tree/0.0.4"
+            },
+            "time": "2024-07-11T19:55:06+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=8.0.0"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.6.0"
+}
