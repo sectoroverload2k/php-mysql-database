@@ -70,12 +70,12 @@ class Database {
 			switch($mysql->errno()){
 				// delete fk constraint
 				case 1451: // fk delete constraint
-					die(new ForeignKeyException('Cannot delete or update this record. Other data depends on this record.'));
+					throw new ForeignKeyException('Cannot delete or update this record. Other data depends on this record.');
 				case 1452: // fk add/update constraint
-					die(new ForeignKeyException('Cannot add or update this record. Other information is required.'));
+					throw new ForeignKeyException('Cannot add or update this record. Other information is required.');
 					break;
 				default:
-					die(new DBErrorException($mysql->error()));
+					throw new DBErrorException($mysql->error());
 			}
 
 			return null;

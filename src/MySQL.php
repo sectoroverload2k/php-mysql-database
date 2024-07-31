@@ -3,6 +3,9 @@ namespace PhpMysqlDatabase;
 
 class MySQL {
     var $db_handle;
+	private $result;
+	private $error;
+	private $errno;
     function __construct($db_handle){
         $this->db_handle = $db_handle;
     }
@@ -27,6 +30,14 @@ class MySQL {
 	// Fetch assoc
 	function fetchAssoc() {
 		return mysqli_fetch_assoc($this->result);
+	}
+	// Fetch all
+	function fetchAll() {
+		$return = [];
+		while($row = $this->fetchAssoc()){
+			$return[] = $row;
+		}
+		return $return;
 	}
 	// Get error
 	function error() {
