@@ -1,15 +1,10 @@
 <?php
-
-// $Id: class.database.php 342 2006-05-03 08:10:15Z stefan $
-
 /*
 Database class
 
 This class will be used to interface between the database
-and the Website Baker code
+and the rest of your code.
 */
-
-// Stop this file from being accessed directly
 
 namespace PhpMysqlDatabase;
 
