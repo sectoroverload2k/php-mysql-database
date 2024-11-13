@@ -15,7 +15,7 @@
     ],
     "require": {
         "php": ">=8.0.0",
-        "sectoroverload2k/rest-router": "^0.0.4"
+        "sectoroverload2k/rest-router": "^0.1.1"
     },
     "autoload": {
         "psr-4": {
