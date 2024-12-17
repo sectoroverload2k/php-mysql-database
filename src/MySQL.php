@@ -57,7 +57,7 @@ class MySQL
 				$types .= 'i';
 			} elseif(is_double($param)){
 				$types .= 'd';
-			} elseif($is_string($param)){
+			} elseif(is_string($param)){
 				$types .= 's';
 			} else {
 				$types .= 'b'; // blob
