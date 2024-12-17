@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9d4fd52952c2b88bb70565a656db9b1a",
+    "content-hash": "3791a10b7b5fd606e4f8784a135b8cb5",
     "packages": [
         {
             "name": "sectoroverload2k/rest-router",
-            "version": "0.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sectoroverload2k/rest-router.git",
-                "reference": "d7442ea1cc7d245a4c36a3b017e479be0620bb3d"
+                "reference": "3ebfcfe9375df250f1646d11df5906c6184b5b28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sectoroverload2k/rest-router/zipball/d7442ea1cc7d245a4c36a3b017e479be0620bb3d",
-                "reference": "d7442ea1cc7d245a4c36a3b017e479be0620bb3d",
+                "url": "https://api.github.com/repos/sectoroverload2k/rest-router/zipball/3ebfcfe9375df250f1646d11df5906c6184b5b28",
+                "reference": "3ebfcfe9375df250f1646d11df5906c6184b5b28",
                 "shasum": ""
             },
             "require": {
@@ -46,9 +46,9 @@
             ],
             "support": {
                 "issues": "https://github.com/sectoroverload2k/rest-router/issues",
-                "source": "https://github.com/sectoroverload2k/rest-router/tree/0.1.1"
+                "source": "https://github.com/sectoroverload2k/rest-router/tree/1.1.2"
             },
-            "time": "2024-08-20T16:11:19+00:00"
+            "time": "2024-12-17T20:49:54+00:00"
         }
     ],
     "packages-dev": [],
