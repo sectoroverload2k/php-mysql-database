@@ -15,28 +15,35 @@ class MySQL
     // Run a query
     public function query($statement, $params = [])
     {
-		// Prepare the statement
-		$this->stmt = mysqli_prepare($this->db_handle, $statement);
-		if(!$this->stmt) {
-			$this->error = mysqli_error($this->db_handle);
-			$this->errno = mysqli_errno($this->db_handle);
-			return false;
-		}
+		if(!empty($params)){
+			// Prepare the statement
+			$this->stmt = mysqli_prepare($this->db_handle, $statement);
+			if(!$this->stmt) {
+				$this->error = mysqli_error($this->db_handle);
+				$this->errno = mysqli_errno($this->db_handle);
+				return false;
+			}
 
-		// Bind the parameters if provided
-		if (!empty($params)){
+			// Bind the parameters if provided
 			$types = $this->getParamTypes($params);
 			mysqli_stmt_bind_param($this->stmt, $types, ...$params);
-		}
 
-		// execute the query
-		if(!mysqli_stmt_execute($this->stmt)){
-			$this->error = mysqli_stmt_error($this->stmt);
-			$this->errno = mysqli_stmt_errno($this->stmt);
-			return false;
-		}
+			// execute the query
+			if(!mysqli_stmt_execute($this->stmt)){
+				$this->error = mysqli_stmt_error($this->stmt);
+				$this->errno = mysqli_stmt_errno($this->stmt);
+				return false;
+			}
 
-        $this->result = mysqli_stmt_get_result($this->stmt);
+			$this->result = mysqli_stmt_get_result($this->stmt);
+
+		} else {
+
+			$this->result = mysqli_query($this->db_handle, $statement);
+
+	        $this->error = mysqli_error($this->db_handle);
+	        $this->errno = mysqli_errno($this->db_handle);
+		}
 
         return $this->result;
     }
