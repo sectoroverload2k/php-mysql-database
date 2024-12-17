@@ -61,10 +61,10 @@ class Database
         }
     }
     // Run a query
-    public function query($statement)
+    public function query($statement, $params = [])
     {
         $mysql = new MySQL($this->db_handle);
-        $mysql->query($statement);
+        $mysql->query($statement, $params);
         $this->set_error($mysql->error());
         if($mysql->error()) {
             switch($mysql->errno()) {
