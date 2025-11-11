@@ -18,6 +18,10 @@ class Database
     protected $username;
     protected $password;
     protected $database;
+    protected $db_handle;
+    protected $connected;
+    protected $error;
+    protected $error_type;
 
     public function __construct($config = [])
     {
