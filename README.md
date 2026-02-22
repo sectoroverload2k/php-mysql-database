@@ -1,5 +1,7 @@
 # php-mysql-database
 
+[![Latest Version](https://img.shields.io/packagist/v/sectoroverload2k/php-mysql-database.svg)](https://packagist.org/packages/sectoroverload2k/php-mysql-database)
+
 A lightweight PHP MySQL database wrapper with prepared statement support.
 
 ## Installation
