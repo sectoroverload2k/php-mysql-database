@@ -166,7 +166,7 @@ class Database
     {
         global $TABLE_DOES_NOT_EXIST, $TABLE_UNKNOWN;
         $this->error = $message;
-        if(strpos($message, 'no such table')) {
+        if($message && strpos($message, 'no such table') !== false) {
             $this->error_type = $TABLE_DOES_NOT_EXIST;
         } else {
             $this->error_type = $TABLE_UNKNOWN;
