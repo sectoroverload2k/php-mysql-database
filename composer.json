@@ -1,8 +1,8 @@
 {
     "name": "sectoroverload2k/php-mysql-database",
     "type": "library",
-    "description": "PHP Library for OO MySQLi connection and queries",
-    "keywords": ["mysql","crud"],
+    "description": "Lightweight PHP MySQL wrapper with prepared statements. Query returns MySQL object - call fetchAssoc() or fetchAll() to get data.",
+    "keywords": ["mysql","crud","database","prepared-statements","mysqli","wrapper"],
     "homepage": "https://github.com/sectoroverload2k/php-crud",
     "license": "MIT",
     "authors": [
