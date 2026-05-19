@@ -22,6 +22,7 @@ class Database
     protected $connected;
     protected $error;
     protected $error_type;
+    protected $in_transaction = false;
 
     public function __construct($config = [])
     {
@@ -185,5 +186,83 @@ class Database
     public function insert_id()
     {
         return mysqli_insert_id($this->db_handle);
+    }
+
+    /**
+     * Start a database transaction
+     *
+     * @return bool True on success
+     * @throws DBErrorException On transaction start failure
+     */
+    public function beginTransaction(): bool
+    {
+        $result = mysqli_begin_transaction($this->db_handle);
+
+        if (!$result) {
+            $error = mysqli_error($this->db_handle);
+            $this->set_error($error);
+            throw new DBErrorException('Failed to start transaction: ' . $error);
+        }
+
+        $this->in_transaction = true;
+        return true;
+    }
+
+    /**
+     * Commit the current transaction
+     *
+     * @return bool True on success
+     * @throws DBErrorException On commit failure
+     */
+    public function commit(): bool
+    {
+        if (!$this->in_transaction) {
+            throw new DBErrorException('Cannot commit: no transaction in progress');
+        }
+
+        $result = mysqli_commit($this->db_handle);
+
+        if (!$result) {
+            $error = mysqli_error($this->db_handle);
+            $this->set_error($error);
+            throw new DBErrorException('Failed to commit transaction: ' . $error);
+        }
+
+        $this->in_transaction = false;
+        return true;
+    }
+
+    /**
+     * Rollback the current transaction
+     *
+     * @return bool True on success
+     * @throws DBErrorException On rollback failure
+     */
+    public function rollback(): bool
+    {
+        if (!$this->in_transaction) {
+            throw new DBErrorException('Cannot rollback: no transaction in progress');
+        }
+
+        $result = mysqli_rollback($this->db_handle);
+
+        if (!$result) {
+            $error = mysqli_error($this->db_handle);
+            $this->set_error($error);
+            throw new DBErrorException('Failed to rollback transaction: ' . $error);
+        }
+
+        $this->in_transaction = false;
+        return true;
+    }
+
+    /**
+     * Check if currently in a transaction
+     *
+     * @return bool True if in transaction, false otherwise
+     */
+    public function inTransaction(): bool
+    {
+        return $this->in_transaction;
     }
 }

@@ -411,42 +411,75 @@ class ApiController {
 
 ## Advanced Patterns
 
-### Transaction-like Operations
+### Transaction Support
+
+#### Basic Order Processing
 
 ```php
-// While this library doesn't have explicit transaction methods,
-// you can structure operations carefully:
+try {
+    $db->beginTransaction();
 
-class TransferService {
-    private $db;
+    // Create order
+    $db->query('INSERT INTO orders (user_id, status, created_at) VALUES (?, ?, NOW())',
+               [$userId, 'pending']);
+    $orderId = $db->insert_id();
 
-    public function transferFunds($fromUserId, $toUserId, $amount) {
-        try {
-            // Deduct from sender
-            $this->db->query('
-                UPDATE wallets
-                SET balance = balance - ?
-                WHERE user_id = ? AND balance >= ?
-            ', [$amount, $fromUserId, $amount]);
+    // Add order items
+    foreach ($items as $item) {
+        $db->query('INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)',
+                   [$orderId, $item['id'], $item['qty'], $item['price']]);
+    }
 
-            // Add to receiver
-            $this->db->query('
-                UPDATE wallets
-                SET balance = balance + ?
-                WHERE user_id = ?
-            ', [$amount, $toUserId]);
+    // Update inventory
+    foreach ($items as $item) {
+        $db->query('UPDATE products SET stock = stock - ? WHERE id = ?',
+                   [$item['qty'], $item['id']]);
+    }
 
-            // Log transaction
-            $this->db->query('
-                INSERT INTO transactions (from_user, to_user, amount, created_at)
-                VALUES (?, ?, ?, NOW())
-            ', [$fromUserId, $toUserId, $amount]);
+    $db->commit();
+    return $orderId;
 
-            return ['success' => true];
+} catch (Exception $e) {
+    $db->rollback();
+    error_log("Order creation failed: " . $e->getMessage());
+    throw $e;
+}
+```
 
-        } catch (Exception $e) {
-            return ['success' => false, 'error' => $e->getMessage()];
+#### Bank Transfer with Validation
+
+```php
+function transferFunds($db, $fromAccount, $toAccount, $amount) {
+    try {
+        $db->beginTransaction();
+
+        // Check and deduct from sender
+        $result = $db->query('UPDATE accounts SET balance = balance - ?
+                             WHERE id = ? AND balance >= ?',
+                            [$amount, $fromAccount, $amount]);
+
+        if ($result->numRows() === 0) {
+            $db->rollback();
+            throw new Exception('Insufficient funds');
         }
+
+        // Add to receiver
+        $db->query('UPDATE accounts SET balance = balance + ? WHERE id = ?',
+                   [$amount, $toAccount]);
+
+        // Log transfer
+        $db->query('INSERT INTO transfer_log (from_account, to_account, amount, timestamp)
+                   VALUES (?, ?, ?, NOW())',
+                   [$fromAccount, $toAccount, $amount]);
+
+        $db->commit();
+        return true;
+
+    } catch (Exception $e) {
+        if ($db->inTransaction()) {
+            $db->rollback();
+        }
+        return false;
     }
 }
 ```

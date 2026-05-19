@@ -302,6 +302,87 @@ $result = $db->query($sql, $params);
 $products = $result->fetchAll();
 ```
 
+## Transaction Support
+
+Wrap multiple queries in a transaction to ensure atomicity - either all operations succeed or all fail.
+
+### Basic Transaction
+
+```php
+try {
+    $db->beginTransaction();
+
+    $db->query('INSERT INTO orders (user_id, total) VALUES (?, ?)', [123, 99.99]);
+    $orderId = $db->insert_id();
+
+    $db->query('INSERT INTO order_items (order_id, product_id) VALUES (?, ?)',
+               [$orderId, 456]);
+
+    $db->commit();
+} catch (RestRouter\Exceptions\DBErrorException $e) {
+    $db->rollback();
+    echo "Transaction failed: " . $e->getMessage();
+}
+```
+
+### Money Transfer Example
+
+```php
+try {
+    $db->beginTransaction();
+
+    // Deduct from sender
+    $db->query('UPDATE wallets SET balance = balance - ? WHERE user_id = ? AND balance >= ?',
+               [100.00, $fromUser, 100.00]);
+
+    // Add to receiver
+    $db->query('UPDATE wallets SET balance = balance + ? WHERE user_id = ?',
+               [100.00, $toUser]);
+
+    // Log transaction
+    $db->query('INSERT INTO transactions (from_user, to_user, amount) VALUES (?, ?, ?)',
+               [$fromUser, $toUser, 100.00]);
+
+    $db->commit();
+} catch (Exception $e) {
+    $db->rollback();
+    throw $e;
+}
+```
+
+### Transaction Methods
+
+#### `beginTransaction(): bool`
+Start a new transaction.
+
+**Returns:** True on success
+**Throws:** DBErrorException on failure
+
+#### `commit(): bool`
+Commit the current transaction.
+
+**Returns:** True on success
+**Throws:** DBErrorException on failure or if no transaction is active
+
+#### `rollback(): bool`
+Rollback the current transaction.
+
+**Returns:** True on success
+**Throws:** DBErrorException on failure or if no transaction is active
+
+#### `inTransaction(): bool`
+Check if currently in a transaction.
+
+**Returns:** True if in transaction, false otherwise
+
+### Transaction Best Practices
+
+1. **Always use try-catch** - Catch exceptions and rollback on errors
+2. **Commit explicitly** - Don't rely on auto-commit
+3. **Keep transactions short** - Minimize lock time on tables
+4. **Handle all errors** - Always rollback on any exception
+5. **Check state when needed** - Use `inTransaction()` if transaction state is uncertain
+
 ## API Reference
 
 ### Database Class
@@ -340,6 +421,29 @@ Execute a prepared statement.
 Get the last inserted auto-increment ID.
 
 **Returns:** Integer ID
+
+#### `beginTransaction(): bool`
+Start a database transaction.
+
+**Returns:** True on success
+**Throws:** DBErrorException
+
+#### `commit(): bool`
+Commit the current transaction.
+
+**Returns:** True on success
+**Throws:** DBErrorException
+
+#### `rollback(): bool`
+Rollback the current transaction.
+
+**Returns:** True on success
+**Throws:** DBErrorException
+
+#### `inTransaction(): bool`
+Check if currently in a transaction.
+
+**Returns:** Boolean transaction state
 
 ### MySQL Class (Result Object)
 
