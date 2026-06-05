@@ -189,6 +189,16 @@ class Database
     }
 
     /**
+     * Get the number of affected rows from the last query
+     *
+     * @return int Number of rows affected by the last INSERT, UPDATE, DELETE, or REPLACE query
+     */
+    public function affected_rows()
+    {
+        return mysqli_affected_rows($this->db_handle);
+    }
+
+    /**
      * Start a database transaction
      *
      * @return bool True on success

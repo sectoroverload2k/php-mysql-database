@@ -134,6 +134,9 @@ $db->query(
     'UPDATE users SET last_login = NOW() WHERE id = ?',
     [123]
 );
+
+$rowsAffected = $db->affected_rows();
+echo "Updated $rowsAffected rows";
 ```
 
 ### Delete Records
@@ -421,6 +424,11 @@ Execute a prepared statement.
 Get the last inserted auto-increment ID.
 
 **Returns:** Integer ID
+
+#### `affected_rows(): int`
+Get the number of affected rows from the last query.
+
+**Returns:** Number of rows affected by the last INSERT, UPDATE, DELETE, or REPLACE query
 
 #### `beginTransaction(): bool`
 Start a database transaction.
